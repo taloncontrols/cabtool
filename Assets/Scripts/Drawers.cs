@@ -59,7 +59,8 @@ public class Drawers : MonoBehaviour
                         openBox.boxOpened = true;
                     }
                     go.transform.parent = GameObject.Find("Cupboard").transform;
-                    go.transform.localScale = Vector3.one * 45;
+                    //go.transform.localScale = Vector3.one * 45;
+                    go.transform.localScale = new Vector3( 45,45,60);
                     go.transform.localRotation = Quaternion.identity;
                     selectorArr[i] = go;
                 }

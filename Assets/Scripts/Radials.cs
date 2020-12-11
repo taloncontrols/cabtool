@@ -42,7 +42,7 @@ public class Radials : MonoBehaviour
                     var sensor = selected[i];
 
 
-                    GameObject go = Instantiate(selector, new Vector3((float)(Screen.width-150f), (float)((float)Screen.height-100f- i * 80f), 0f), Quaternion.identity) as GameObject;
+                    GameObject go = Instantiate(selector, new Vector3((float)(Screen.width-120f), (float)((float)Screen.height-100f- i * 80f), 0f), Quaternion.identity) as GameObject;
                     
                     //value.GetComponent<SliderValueToText>().id = sensor.Id;
 
