@@ -8,6 +8,7 @@ public class RadialSlider : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     bool isPointerDown = false;
     public string id;
+    public string type;
     public float maxValue = 100;
     public bool isHex = false;
     // Called when the pointer enters our GUI component.
@@ -83,7 +84,21 @@ public class RadialSlider : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         GameObject Cupboard = GameObject.Find("Cupboard");
         var cabinetService = Cupboard.GetComponent<CabinetService>();
         cabinetService.Change(id, value);
+        Setup(value);
     }
 
+    public void Setup(string value)
+    {
+        if (type == "led")
+        {
+            GameObject light = GameObject.Find("Sphere");
+
+            if (light != null)
+            {
+                var led = light.GetComponent<Led>();
+                led.SetValue(value);
+            }
+        }
+    }
 
 }

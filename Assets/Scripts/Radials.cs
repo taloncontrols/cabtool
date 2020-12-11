@@ -65,9 +65,10 @@ public class Radials : MonoBehaviour
 
                     var script = sliderObject.GetComponent<RadialSlider>();
                     script.id = sensor.Id;
+                    script.type = sensor.Type;
                     script.maxValue = maxValue;
                     script.isHex = isHex;
-
+                    script.Setup(sensor.Value);
                     image.fillAmount = angle;
 
                     image.color = Color.Lerp(Color.red, Color.green, angle * 2);
