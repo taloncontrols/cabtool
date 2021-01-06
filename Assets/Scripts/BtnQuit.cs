@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class BtnQuit : MonoBehaviour
 {
     // Start is called before the first frame update
-   public void doExitGame()
+    public Button m_ButtonQuit;
+    void Start()
+    {
+        m_ButtonQuit.onClick.AddListener(doExitGame);
+
+    }
+    public void doExitGame()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -13,5 +19,5 @@ public class BtnQuit : MonoBehaviour
       Application.Quit();
 #endif
     }
-
+  
 }

@@ -104,6 +104,17 @@ namespace Assets.Scripts
             return Id ?? "";
         }
     }
+
+    [System.Serializable]
+
+    public class DeviceItem
+    {
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public string Configuration { get; set; }
+        public string ClassName { get; set; }
+        public string Name { get; set; }
+    }
     class CabinetService : MonoBehaviour
     {
         const string TEST_CABINETSERVICE_URL = "http://localhost:5009";
@@ -119,7 +130,9 @@ namespace Assets.Scripts
         public List<IoItem> ios;
         public List<ContainerItem> containers;
 
-
+        public List<DeviceItem> devices;
+        public bool devicesLoaded = false;
+        public string devicesData = "";
 
         public void getContainersFromServer()
         {
@@ -133,6 +146,12 @@ namespace Assets.Scripts
             this.StartCoroutine(this.RequestRoutine(url, this.IosResponseCallback));
         }
 
+        public void getDevicesFromServer()
+        {
+            string url = TEST_CABINETSERVICE_URL + "/devices";
+            this.StartCoroutine(this.RequestRoutine(url, this.DevicesResponseCallback));
+        }
+
         // Where to send our request
 
         void Awake()
@@ -140,6 +159,7 @@ namespace Assets.Scripts
             //this.StartCoroutine(this.RequestRoutine(this.targetUrl, this.ResponseCallback));
             getContainersFromServer();
             getIosFromServer();
+            getDevicesFromServer();
         }
 
         private IEnumerator RequestRoutine(string url, Action<string> callback = null)
@@ -181,7 +201,14 @@ namespace Assets.Scripts
             //ios = JsonHelper.FromJson<IoItem>(data);
             ios = JsonConvert.DeserializeObject<List<IoItem>>(data);
         }
-
+        private void DevicesResponseCallback(string data)
+        {
+            Debug.Log(data);
+            devicesData = data;
+            devicesLoaded = true;
+            //ios = JsonHelper.FromJson<IoItem>(data);
+            devices = JsonConvert.DeserializeObject<List<DeviceItem>>(data);
+        }
         public void ChangeByContainerId(string containerId, string value)
         {
             var io = ios.FirstOrDefault(n => n.ContainerId == containerId);
