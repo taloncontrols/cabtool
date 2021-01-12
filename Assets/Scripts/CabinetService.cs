@@ -208,6 +208,7 @@ namespace Assets.Scripts
             devicesLoaded = true;
             //ios = JsonHelper.FromJson<IoItem>(data);
             devices = JsonConvert.DeserializeObject<List<DeviceItem>>(data);
+            devices = devices.Where(x => !string.IsNullOrWhiteSpace(x.ClassName)).ToList();
         }
         public void ChangeByContainerId(string containerId, string value)
         {
@@ -229,6 +230,24 @@ namespace Assets.Scripts
             //string str = JsonUtility.ToJson(items);
             string str = JsonConvert.SerializeObject(items);
             this.WebPatchRequest(url, str);
+        }
+
+        public void ChangeIo(IoItem item)
+        {
+            string url = TEST_CABINETSERVICE_URL + "/ios/direct/peripheral";
+            
+            var items = new List<IoItem>();
+            items.Add(item);
+            //string str = JsonUtility.ToJson(items);
+            string str = JsonConvert.SerializeObject(items);
+            this.WebPatchRequest(url, str);
+        }
+
+        public string GetDeviceType(int value)
+        {           
+            var deviceItem = devices[value];
+            var type = !string.IsNullOrEmpty(deviceItem.ClassName) ? deviceItem.ClassName : deviceItem.Type;
+            return type;
         }
         public void WebPatchRequest(string url, string str)
         {

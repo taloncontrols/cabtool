@@ -9,7 +9,7 @@ public class DropPeripheral : MonoBehaviour
     // Start is called before the first frame update
     Dropdown m_Dropdown;
     public Text m_Text;
-
+    public Dropdown m_DropdownData;
     void Start()
     {
         //Fetch the Dropdown GameObject
@@ -55,6 +55,7 @@ public class DropPeripheral : MonoBehaviour
                 }
 
                 m_Dropdown.AddOptions(options);
+                DropdownValueChanged(m_Dropdown);
             }
         }
     }
@@ -63,6 +64,11 @@ public class DropPeripheral : MonoBehaviour
     {
         //m_Text.text = "New Value : " + change.value;
         m_Text.text = "";
+        GameObject Cupboard = GameObject.Find("Cupboard");
+        var cabinetService = Cupboard.GetComponent<CabinetService>();
+      
+        var type = cabinetService.GetDeviceType(change.value);
+        m_DropdownData.GetComponent<DropData>().LoadData(type);
     }
 
     // Update is called once per frame
