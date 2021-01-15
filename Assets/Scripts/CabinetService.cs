@@ -77,6 +77,18 @@ namespace Assets.Scripts
             return base.GetLabel();
         }
     }
+    public static class ExtRequest
+    {
+        public static bool IsSuccess(this UnityWebRequest request)
+        {
+            if (request.isNetworkError) { return false; }
+
+            if (request.responseCode == 0) { return true; }
+            if (request.responseCode == (long)System.Net.HttpStatusCode.OK) { return true; }
+
+            return false;
+        }
+    }
 
     [System.Serializable]
     public class ContainerItem
@@ -121,7 +133,7 @@ namespace Assets.Scripts
         public bool iosLoaded = false;
         public bool containersLoaded = false;
 
-        string targetUrl = TEST_CABINETSERVICE_URL;
+        public string targetUrl = TEST_CABINETSERVICE_URL;
 
         // Keep track of what we got back
         string recentData = "";
@@ -136,19 +148,19 @@ namespace Assets.Scripts
 
         public void getContainersFromServer()
         {
-            string url = TEST_CABINETSERVICE_URL + "/containers";
+            string url = targetUrl + "/containers";
             this.StartCoroutine(this.RequestRoutine(url, this.ContainersResponseCallback));
         }
 
         public void getIosFromServer()
         {
-            string url = TEST_CABINETSERVICE_URL + "/ios/all";
+            string url = targetUrl + "/ios/all";
             this.StartCoroutine(this.RequestRoutine(url, this.IosResponseCallback));
         }
 
         public void getDevicesFromServer()
         {
-            string url = TEST_CABINETSERVICE_URL + "/devices";
+            string url = targetUrl + "/devices";
             this.StartCoroutine(this.RequestRoutine(url, this.DevicesResponseCallback));
         }
 
@@ -157,11 +169,37 @@ namespace Assets.Scripts
         void Awake()
         {
             //this.StartCoroutine(this.RequestRoutine(this.targetUrl, this.ResponseCallback));
+            this.StartCoroutine(this.DoCheck());
+        }
+         bool IsSuccess( UnityWebRequest request)
+        {
+            if (request.isHttpError|| request.isNetworkError) { return false; }
+
+            if (request.responseCode == 0) { return true; }
+            if (request.responseCode == (long)System.Net.HttpStatusCode.OK) { return true; }
+
+            return false;
+        }
+        IEnumerator DoCheck()
+        {
+            for (; ; )
+            {
+                string url = targetUrl + "/health";
+                var request = UnityWebRequest.Get(url);
+                yield return request.SendWebRequest();
+                if (request.IsSuccess())
+                {
+                    break;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(2f);
+                }
+            }
             getContainersFromServer();
             getIosFromServer();
             getDevicesFromServer();
         }
-
         private IEnumerator RequestRoutine(string url, Action<string> callback = null)
         {
             // Using the static constructor
