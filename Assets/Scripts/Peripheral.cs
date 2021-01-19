@@ -45,8 +45,8 @@ public class Peripheral : MonoBehaviour
         m_Text.text = $"{data} is sent";
 
 
-        var item = CreateIo(deviceItem.Id, deviceItem.Type);
-
+        //var item = CreateIo(deviceItem.Id, deviceItem.Type);
+        string value = null;
         switch (type)
         {
             
@@ -66,25 +66,25 @@ public class Peripheral : MonoBehaviour
                 ret.RawImage = bytes;
                 ret.Width = width;
                 ret.Height = height;
-                item.Value = JsonConvert.SerializeObject(ret);
+                value = JsonConvert.SerializeObject(ret);
                 break;
             default:
-                item.Value = data;
+                value = data;
                 break;
 
         }
-       
-        
-        cabinetService.ChangeIo(item);
+
+
+        cabinetService.ChangeByDeviceId(deviceItem.Id, value) ;
     }
-    protected IoItem CreateIo(string deviceId,string type)
-    {
-        var item = new IoItem();
-        item.Id = System.Guid.NewGuid().ToString();
-        item.DeviceId = deviceId;
-        item.Direction = "r";
-        item.Type = type;
-        item.ValueType = "string";
-        return item;
-    }
+    //protected IoItem CreateIo(string deviceId,string type)
+    //{
+    //    var item = new IoItem();
+    //    item.Id = System.Guid.NewGuid().ToString();
+    //    item.DeviceId = deviceId;
+    //    item.Direction = "r";
+    //    item.Type = type;
+    //    item.ValueType = "string";
+    //    return item;
+    //}
 }

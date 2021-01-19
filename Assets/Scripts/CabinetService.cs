@@ -255,6 +255,14 @@ namespace Assets.Scripts
             Change(io.Id, value);
 
         }
+
+        public void ChangeByDeviceId(string deviceId, string value)
+        {
+            var io = ios.FirstOrDefault(n => n.DeviceId == deviceId);
+            if (io == null) return;
+            Change(io.Id, value);
+
+        }
         public void Change(string id, string value)
         {
             var io = ios.FirstOrDefault(n => n.Id == id);
