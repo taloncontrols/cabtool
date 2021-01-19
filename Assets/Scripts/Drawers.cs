@@ -10,9 +10,10 @@ public class Drawers : MonoBehaviour
     public int numSelectors = 5;
     public GameObject[] selectorArr;
     public GameObject selector; //selected in the editor
-
+    public GameObject peripheralGO;
     void Start()
     {
+        peripheralGO.SetActive(false);
         StartCoroutine(waiter());
     }
 
@@ -25,7 +26,7 @@ public class Drawers : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
         }
-
+        peripheralGO.SetActive(true);
         var containers = cabinetService.containers;
         if (containers != null && containers.Count > 0)
         {

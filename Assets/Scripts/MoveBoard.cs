@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class MoveBoard : MonoBehaviour
 {
+   
+
     private bool boxOpened;
     private bool coroutineAllowed;
     private Vector3 initialPosition;
@@ -18,7 +20,9 @@ public class MoveBoard : MonoBehaviour
 
     void Start()
     {
+        
         StartCoroutine(waiter());
+        
     }
 
     IEnumerator waiter()
@@ -30,7 +34,7 @@ public class MoveBoard : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
         }
-
+        
         var ios = cabinetService.ios;
         if (ios != null && ios.Count > 0)
         {

@@ -11,6 +11,8 @@ public class DropData : MonoBehaviour
     Dropdown m_Dropdown;
     public Text m_Text;
     public Dropdown m_DropdownPeripheral;
+    public Image m_Image;
+    bool isReady;
     string[] smartCardData = new string[] { "7F-2C-4A-00", "7F-2C-4A-01", "7F-2C-4A-02" };
     string[] barCodeData = new string[] { "12345678901", "12345678902", "12345678903" };
     string[] fingerPrintData = new string[] { "fingerprint 1", "fingerprint 2", "fingerprint 3" };
@@ -25,19 +27,31 @@ public class DropData : MonoBehaviour
         {
             DropdownValueChanged(m_Dropdown);
         });
-        GameObject txtPeripheral = GameObject.Find("txtPeripheral");
-        m_Text = txtPeripheral.GetComponent<Text>();
-        //Initialise the Text to say the first value of the Dropdown
-        //m_Text.text = "First Value : " + m_Dropdown.value;
+        m_Image.enabled = false;
         m_Text.text = "";
 
-
+        isReady = true;
 
     }
 
 
     public void LoadData(string type)
     {
+        StartCoroutine(waiter(type));
+
+       
+    }
+    //Ouput the new value of the Dropdown into Text
+
+    IEnumerator waiter(string type)
+    {
+      
+        while (isReady == false)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        
         m_type = type;
         m_Dropdown.ClearOptions();
         var options = new List<Dropdown.OptionData>();
@@ -49,7 +63,7 @@ public class DropData : MonoBehaviour
                     options.Add(new Dropdown.OptionData(data));
                 }
                 break;
-            case "BarcodeReaderHID":
+            case "BarcodeReaderBS80":
                 foreach (var data in barCodeData)
                 {
                     options.Add(new Dropdown.OptionData(data));
@@ -67,8 +81,7 @@ public class DropData : MonoBehaviour
         m_Dropdown.AddOptions(options);
         DropdownValueChanged(m_Dropdown);
     }
-    //Ouput the new value of the Dropdown into Text
-    void DropdownValueChanged(Dropdown change)
+        void DropdownValueChanged(Dropdown change)
     {
         //m_Text.text = "New Value : " + change.value;
         m_Text.text = "";
@@ -78,9 +91,10 @@ public class DropData : MonoBehaviour
         {
             active = false;
         }
-        GameObject myObject = GameObject.Find("ImageFP");
-        var myImage = myObject.GetComponent<UnityEngine.UI.Image>();
-        myImage.enabled = active;
+        //GameObject myObject = GameObject.Find("ImageFP");
+        //var myImage = myObject.GetComponent<UnityEngine.UI.Image>();
+        //myImage.enabled = active;
+        m_Image.enabled = active;
         // myObject.SetActive(active);
         if (m_type != "FingerprintDPUruNet")
         {
@@ -101,7 +115,7 @@ public class DropData : MonoBehaviour
         texture.LoadImage(bytes);
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.0f), 1.0f);
 
-        myImage.sprite = sprite;
+        m_Image.sprite = sprite;
     }
 
     // Update is called once per frame

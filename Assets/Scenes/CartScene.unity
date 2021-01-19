@@ -1195,8 +1195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d20f44c5cb944c479627036090219d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Text: {fileID: 0}
+  m_Text: {fileID: 847509077}
   m_DropdownPeripheral: {fileID: 668442600}
+  m_Image: {fileID: 2095176713}
 --- !u!1 &668442598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,8 +1347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0cbd63a0ad2214cb9753c3757af83a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Text: {fileID: 0}
-  m_DropdownData: {fileID: 636361606}
+  m_Text: {fileID: 847509077}
+  m_DropDownData: {fileID: 636361606}
 --- !u!224 &675647220 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 231638077087534754, guid: 2da53a12a001dcd4eb774947bf030b90,
@@ -1453,6 +1454,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1375469888, guid: 7d2aa81f635709c41b465df85521a006, type: 3}
+      propertyPath: peripheralGO
+      value: 
+      objectReference: {fileID: 337008280}
     - target: {fileID: 822595408704657806, guid: 7d2aa81f635709c41b465df85521a006,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5770,6 +5775,7 @@ MonoBehaviour:
   selectorArr: []
   selector: {fileID: 7049667212426583757, guid: 29ef9517c17aaec48993d5660d3372a3,
     type: 3}
+  peripheralGO: {fileID: 337008280}
 --- !u!114 &8296172667346370075
 MonoBehaviour:
   m_ObjectHideFlags: 0

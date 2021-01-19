@@ -7,22 +7,21 @@ using UnityEngine.UI;
 public class DropPeripheral : MonoBehaviour
 {
     // Start is called before the first frame update
-    Dropdown m_Dropdown;
+    Dropdown m_DropDown;
     public Text m_Text;
-    public Dropdown m_DropdownData;
+    public Dropdown m_DropDownData;
     void Start()
     {
         //Fetch the Dropdown GameObject
-        m_Dropdown = GetComponent<Dropdown>();
-        //Add listener for when the value of the Dropdown changes, to take action
-        m_Dropdown.ClearOptions();
-        m_Dropdown.onValueChanged.AddListener(delegate {
-            DropdownValueChanged(m_Dropdown);
+        m_DropDown = GetComponent<Dropdown>();
+        //Add listener for when the value of the Dropdown changes, to take action      
+       
+        m_DropDown.ClearOptions();
+        m_DropDown.onValueChanged.AddListener(delegate
+        {
+            DropdownValueChanged(m_DropDown);
         });
-        GameObject txtPeripheral = GameObject.Find("txtPeripheral");
-        m_Text= txtPeripheral.GetComponent<Text>();
-        //Initialise the Text to say the first value of the Dropdown
-        //m_Text.text = "First Value : " + m_Dropdown.value;
+
         m_Text.text = "";
 
         StartCoroutine(waiter());
@@ -42,9 +41,8 @@ public class DropPeripheral : MonoBehaviour
         var devices = cabinetService.devices;
         if (devices != null && devices.Count > 0)
         {
-
             var selected = cabinetService.devices.Where(x => !string.IsNullOrWhiteSpace(x.ClassName)).ToList();
-           int  numSelectors = selected.Count;
+            int numSelectors = selected.Count;
 
             if (numSelectors > 0)
             {
@@ -54,26 +52,26 @@ public class DropPeripheral : MonoBehaviour
                     options.Add(new Dropdown.OptionData(device.Type));
                 }
 
-                m_Dropdown.AddOptions(options);
-                DropdownValueChanged(m_Dropdown);
+                m_DropDown.AddOptions(options);
+                DropdownValueChanged(m_DropDown);
             }
         }
     }
-                //Ouput the new value of the Dropdown into Text
+    //Ouput the new value of the Dropdown into Text
     void DropdownValueChanged(Dropdown change)
     {
         //m_Text.text = "New Value : " + change.value;
         m_Text.text = "";
         GameObject Cupboard = GameObject.Find("Cupboard");
         var cabinetService = Cupboard.GetComponent<CabinetService>();
-      
+
         var type = cabinetService.GetDeviceType(change.value);
-        m_DropdownData.GetComponent<DropData>().LoadData(type);
+        m_DropDownData.GetComponent<DropData>().LoadData(type);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -18,9 +18,11 @@ public class Peripheral : MonoBehaviour
     void Start()
     {
         m_ButtonGenerate.onClick.AddListener(TaskOnClick);
-
+        
+        
     }
 
+   
     // Update is called once per frame
     void Update()
     {
