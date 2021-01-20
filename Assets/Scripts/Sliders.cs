@@ -22,7 +22,7 @@ public class Sliders : MonoBehaviour
         GameObject Cupboard = GameObject.Find("Cupboard");
         var cabinetService = Cupboard.GetComponent<CabinetService>();
 
-        while (cabinetService.containersLoaded == false || cabinetService.iosLoaded == false)
+        while (!cabinetService.IsReady())
         {
             yield return new WaitForSeconds(1);
         }

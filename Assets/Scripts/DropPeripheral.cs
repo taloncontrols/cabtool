@@ -33,7 +33,7 @@ public class DropPeripheral : MonoBehaviour
         GameObject Cupboard = GameObject.Find("Cupboard");
         var cabinetService = Cupboard.GetComponent<CabinetService>();
 
-        while (cabinetService.devicesLoaded == false)
+        while (!cabinetService.IsReady())
         {
             yield return new WaitForSeconds(1);
         }

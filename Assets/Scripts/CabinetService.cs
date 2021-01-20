@@ -130,8 +130,8 @@ namespace Assets.Scripts
     class CabinetService : MonoBehaviour
     {
         const string TEST_CABINETSERVICE_URL = "http://localhost:5009";
-        public bool iosLoaded = false;
-        public bool containersLoaded = false;
+        bool iosLoaded = false;
+        bool containersLoaded = false;
 
         public string targetUrl = TEST_CABINETSERVICE_URL;
 
@@ -143,7 +143,7 @@ namespace Assets.Scripts
         public List<ContainerItem> containers;
 
         public List<DeviceItem> devices;
-        public bool devicesLoaded = false;
+        bool devicesLoaded = false;
         public string devicesData = "";
 
         public void getContainersFromServer()
@@ -199,6 +199,11 @@ namespace Assets.Scripts
             getContainersFromServer();
             getIosFromServer();
             getDevicesFromServer();
+        }
+
+        public bool IsReady()
+        {
+            return containersLoaded && iosLoaded && devicesLoaded;
         }
         private IEnumerator RequestRoutine(string url, Action<string> callback = null)
         {
