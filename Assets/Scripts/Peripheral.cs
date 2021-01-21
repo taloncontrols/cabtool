@@ -15,6 +15,7 @@ public class Peripheral : MonoBehaviour
     public Dropdown m_DropDown;
     public Dropdown m_DropDownData;
     public Text m_Text;
+    public InputField m_InputFieldCode;
     void Start()
     {
         m_ButtonGenerate.onClick.AddListener(TaskOnClick);
@@ -40,9 +41,9 @@ public class Peripheral : MonoBehaviour
         var devices = cabinetService.devices;
         var deviceItem = devices[m_DropDown.value];
         var type = cabinetService.GetDeviceType(m_DropDown.value);
-        var data = m_DropDownData.options[m_DropDownData.value].text;
+        string data;
        
-        m_Text.text = $"{data} is sent";
+       
 
 
         //var item = CreateIo(deviceItem.Id, deviceItem.Type);
@@ -51,6 +52,7 @@ public class Peripheral : MonoBehaviour
         {
             
             case "FingerprintDPUruNet":
+                data = m_DropDownData.options[m_DropDownData.value].text;
                 var ret = new FingerprintResult();
                 ret.Code = (ResultCode)ResultCode.Success;
                 ret.Quality = (CaptureQuality)CaptureQuality.Good;
@@ -69,12 +71,13 @@ public class Peripheral : MonoBehaviour
                 value = JsonConvert.SerializeObject(ret);
                 break;
             default:
+                data = m_InputFieldCode.text;
                 value = data;
                 break;
 
         }
 
-
+        m_Text.text = $"{data} is sent";
         cabinetService.ChangeByDeviceId(deviceItem.Id, value) ;
     }
     //protected IoItem CreateIo(string deviceId,string type)

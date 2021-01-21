@@ -8,10 +8,12 @@ using UnityEngine.UI;
 public class DropData : MonoBehaviour
 {
     // Start is called before the first frame update
-    Dropdown m_Dropdown;
+    Dropdown m_DropdownData;
     public Text m_Text;
+    public InputField m_InputFieldCode;
     public Dropdown m_DropdownPeripheral;
     public Image m_Image;
+   
     bool isReady;
     string[] smartCardData = new string[] { "7F-2C-4A-00", "7F-2C-4A-01", "7F-2C-4A-02" };
     string[] barCodeData = new string[] { "12345678901", "12345678902", "12345678903" };
@@ -20,12 +22,12 @@ public class DropData : MonoBehaviour
     void Start()
     {
         //Fetch the Dropdown GameObject
-        m_Dropdown = GetComponent<Dropdown>();
+        m_DropdownData = GetComponent<Dropdown>();
         //Add listener for when the value of the Dropdown changes, to take action
-        m_Dropdown.ClearOptions();
-        m_Dropdown.onValueChanged.AddListener(delegate
+        m_DropdownData.ClearOptions();
+        m_DropdownData.onValueChanged.AddListener(delegate
         {
-            DropdownValueChanged(m_Dropdown);
+            DropdownValueChanged(m_DropdownData);
         });
         m_Image.enabled = false;
         m_Text.text = "";
@@ -53,7 +55,7 @@ public class DropData : MonoBehaviour
 
         
         m_type = type;
-        m_Dropdown.ClearOptions();
+        m_DropdownData.ClearOptions();
         var options = new List<Dropdown.OptionData>();
         switch (type)
         {
@@ -78,8 +80,8 @@ public class DropData : MonoBehaviour
         }
 
 
-        m_Dropdown.AddOptions(options);
-        DropdownValueChanged(m_Dropdown);
+        m_DropdownData.AddOptions(options);
+        DropdownValueChanged(m_DropdownData);
     }
         void DropdownValueChanged(Dropdown change)
     {
@@ -90,11 +92,14 @@ public class DropData : MonoBehaviour
         if (m_type != "FingerprintDPUruNet")
         {
             active = false;
+            m_InputFieldCode.text = change.options[change.value].text;
         }
+    
         //GameObject myObject = GameObject.Find("ImageFP");
         //var myImage = myObject.GetComponent<UnityEngine.UI.Image>();
         //myImage.enabled = active;
         m_Image.enabled = active;
+        m_InputFieldCode.gameObject.SetActive(!active);
         // myObject.SetActive(active);
         if (m_type != "FingerprintDPUruNet")
         {
