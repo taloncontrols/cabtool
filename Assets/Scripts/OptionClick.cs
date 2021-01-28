@@ -23,7 +23,7 @@ public class OptionClick : MonoBehaviour
     {
         GameObject Cupboard = GameObject.Find("Cupboard");
         var cabinetService = Cupboard.GetComponent<CabinetService>();
-        m_InputField.text = cabinetService.targetUrl;
+        m_InputField.text = cabinetService.getUrl();
         panelOption.SetActive(true);
     }
 
@@ -31,7 +31,7 @@ public class OptionClick : MonoBehaviour
     {
         GameObject Cupboard = GameObject.Find("Cupboard");
         var cabinetService = Cupboard.GetComponent<CabinetService>();
-        cabinetService.targetUrl = m_InputField.text;
+        cabinetService.setUrl(m_InputField.text);
         panelOption.SetActive(false);
     }
     void TaskOnClickCancel()
