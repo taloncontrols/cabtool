@@ -65,6 +65,7 @@ public class DropData : MonoBehaviour
                     options.Add(new Dropdown.OptionData(data));
                 }
                 break;
+            case "BarcodeReaderHID":
             case "BarcodeReaderBS80":
                 foreach (var data in barCodeData)
                 {

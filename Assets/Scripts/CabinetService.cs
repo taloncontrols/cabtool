@@ -11,8 +11,8 @@ using GrpcCabinet;
 
 namespace Assets.Scripts
 {
-    class CabinetService : CabinetServiceRest
-    //class CabinetService : CabinetServiceGrpc
+    //class CabinetService : CabinetServiceRest
+    class CabinetService : CabinetServiceGrpc
     {
     }
 

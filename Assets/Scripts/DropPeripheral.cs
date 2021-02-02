@@ -49,7 +49,7 @@ public class DropPeripheral : MonoBehaviour
                 var options = new List<Dropdown.OptionData>();
                 foreach (var device in selected)
                 {
-                    options.Add(new Dropdown.OptionData(device.Type));
+                    options.Add(new Dropdown.OptionData(device.Name??device.Type));
                 }
 
                 m_DropDown.AddOptions(options);
