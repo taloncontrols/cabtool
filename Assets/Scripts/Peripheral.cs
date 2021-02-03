@@ -62,7 +62,7 @@ public class Peripheral : MonoBehaviour
                 int width = 200;
                 int height = 200;
                
-                string path = Application.dataPath + "/Image/sample" + m_DropDownData.value + ".png";
+                string path = Application.streamingAssetsPath + "/sample" + m_DropDownData.value + ".png";
                 if (!File.Exists(path)) return;
                 byte[] bytes = File.ReadAllBytes(path);
                 ret.RawImage = bytes;

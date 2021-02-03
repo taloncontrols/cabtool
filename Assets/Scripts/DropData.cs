@@ -113,7 +113,13 @@ public class DropData : MonoBehaviour
         //byte[] bytes = File.ReadAllBytes(Application.persistentDataPath + "/sprite.png");
         //string path = @"C:\data\sample"+change.value+".png";
         //string path = Application.persistentDataPath+"/sample" + change.value + ".png";
-        string path = Application.dataPath + "/Image/sample" + change.value + ".png";
+        //string dir=Application.dataPath;
+        string dir = Application.streamingAssetsPath;
+
+        string path = dir  + "/sample" + change.value + ".png";
+
+        
+
         if (!File.Exists(path)) return;
         byte[] bytes = File.ReadAllBytes(path);
         Texture2D texture = new Texture2D(width, height);
