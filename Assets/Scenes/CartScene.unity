@@ -3360,13 +3360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba01ca8b1d571145973282668a2555a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetUrl: http://localhost:5009
-  containersData: 
-  iosData: 
   ios: []
   containers: []
   devices: []
-  devicesData: 
 --- !u!4 &8940632807286108491 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1019906642124521378, guid: 2b2e23c32edc6f74f9e762fbb4faea33,

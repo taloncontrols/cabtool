@@ -16,8 +16,9 @@ namespace Assets.Scripts
     {
 
         const string GRPC_CABINETSERVICE_URL = "localhost:5010";
-        bool iosLoaded = false;
-        bool containersLoaded = false;
+        bool iosLoaded;
+        bool containersLoaded;
+        bool devicesLoaded;
 
         string targetUrl = GRPC_CABINETSERVICE_URL;
 
@@ -27,7 +28,7 @@ namespace Assets.Scripts
         public List<ContainerItem> containers;
 
         public List<DeviceItem> devices;
-        bool devicesLoaded = false;
+       
 
         public string getUrl()
         {
@@ -40,6 +41,9 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            containersLoaded = false;
+            iosLoaded = false;
+            devicesLoaded = false;
             targetUrl = GRPC_CABINETSERVICE_URL;
             this.DoCheck();
         }
@@ -56,7 +60,7 @@ namespace Assets.Scripts
             foreach (var c in reply.Containers)
             {
                 this.containers.Add(mapper.ToDto(c));
-            }
+            }            
             containersLoaded = true;
 
         }
@@ -68,7 +72,7 @@ namespace Assets.Scripts
             var reply = await client.GetIosAsync(
                               new CabinetRequest());
             Debug.Log("GetIos: " + reply.Ios.Count);
-            this.containers = new List<ContainerItem>();
+            this.ios = new List<IoItem>();
             var mapper = new Mapper();
             foreach (var c in reply.Ios)
             {
@@ -84,7 +88,7 @@ namespace Assets.Scripts
             var reply = await client.GetDevicesAsync(
                               new CabinetRequest());
             Debug.Log("GetDevices: " + reply.Devices.Count);
-            this.containers = new List<ContainerItem>();
+            this.devices = new List<DeviceItem>();
             var mapper = new Mapper();
             foreach (var c in reply.Devices)
             {
