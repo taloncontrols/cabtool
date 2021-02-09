@@ -3363,6 +3363,7 @@ MonoBehaviour:
   ios: []
   containers: []
   devices: []
+  canvas: {fileID: 0}
 --- !u!4 &8940632807286108491 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1019906642124521378, guid: 2b2e23c32edc6f74f9e762fbb4faea33,

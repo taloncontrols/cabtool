@@ -11,17 +11,19 @@ public class Sliders : MonoBehaviour
     public int numSelectors = 5;
     public GameObject[] selectorArr;
     public GameObject selector; //selected in the editor
-
+    public Slider[] sliderArr;
+    CabinetService cabinetService;
     void Start()
     {
+        GameObject Cupboard = GameObject.Find("Cupboard");
+        cabinetService = Cupboard.GetComponent<CabinetService>();
         StartCoroutine(waiter());
     }
 
     IEnumerator waiter()
     {
-        GameObject Cupboard = GameObject.Find("Cupboard");
-        var cabinetService = Cupboard.GetComponent<CabinetService>();
 
+        cabinetService.OnChangeValue += ChangeValue;
         while (!cabinetService.IsReady())
         {
             yield return new WaitForSeconds(1);
@@ -31,12 +33,13 @@ public class Sliders : MonoBehaviour
         if (ios != null && ios.Count > 0)
         {
           
-            var selected = cabinetService.ios.Where(x => x.ValueType !="string" && (x.Id=="1" || x.Id.Length>2) && x.Type != "batteryVoltage" && x.Type != "led" && x.Type != "servoPosition").ToList();
+            var selected = cabinetService.GetIosSliders();
             numSelectors = selected.Count;
 
             if (numSelectors > 0)
             {
                 selectorArr = new GameObject[numSelectors];
+                sliderArr = new Slider[numSelectors];
                 for (int i = 0; i < numSelectors; i++)
                 {
                     var sensor = selected[i];
@@ -66,6 +69,7 @@ public class Sliders : MonoBehaviour
                     //go.transform.localScale = Vector3.one * 45;
                     //go.transform.localRotation = Quaternion.identity;
                     selectorArr[i] = go;
+                    sliderArr[i] = slider;
                 }
             }
         }
@@ -91,6 +95,30 @@ public class Sliders : MonoBehaviour
     void Update()
     {
 
+    }
+
+   public void ChangeValue(IoItem sensor)
+    {
+       
+        bool found = false;
+        var selected = cabinetService.GetIosSliders();
+        int numSelectors = selected.Count;
+        int i;
+        for (  i = 0; i < numSelectors; i++)
+        {
+            var s = selected[i];
+            if (sensor.Id == s.Id)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return;
+
+       
+        var slider = sliderArr[i];
+        slider.value = string.IsNullOrWhiteSpace(sensor.Value) ? 0f : (float)System.Convert.ToInt32(sensor.Value);
+        
     }
 }
 

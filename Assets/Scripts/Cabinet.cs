@@ -42,15 +42,19 @@ namespace GrpcCabinet {
             "CUlzSGVhbHRoeRgBIAEoCCI7Cg5Db250YWluZXJSZXBseRIpCgpjb250YWlu",
             "ZXJzGAEgAygLMhUuY2FiaW5ldC5Db250YWluZXJNc2ciJgoHSW9SZXBseRIb",
             "CgNpb3MYASADKAsyDi5jYWJpbmV0LklvTXNnIjIKC0RldmljZVJlcGx5EiMK",
-            "B2RldmljZXMYASADKAsyEi5jYWJpbmV0LkRldmljZU1zZzK4AgoHQ2FiaW5l",
-            "dBJBCg1HZXRDb250YWluZXJzEhcuY2FiaW5ldC5DYWJpbmV0UmVxdWVzdBoX",
-            "LmNhYmluZXQuQ29udGFpbmVyUmVwbHkSMwoGR2V0SW9zEhcuY2FiaW5ldC5D",
-            "YWJpbmV0UmVxdWVzdBoQLmNhYmluZXQuSW9SZXBseRI7CgpHZXREZXZpY2Vz",
-            "EhcuY2FiaW5ldC5DYWJpbmV0UmVxdWVzdBoULmNhYmluZXQuRGV2aWNlUmVw",
-            "bHkSOAoJR2V0SGVhbHRoEhcuY2FiaW5ldC5DYWJpbmV0UmVxdWVzdBoSLmNh",
-            "YmluZXQuSGVhbHRoTXNnEj4KDlVwZGF0ZUlvRGlyZWN0EhguY2FiaW5ldC5J",
-            "b0RpcmVjdFJlcXVlc3QaEi5jYWJpbmV0LlJldHVybk1zZ0IOqgILR3JwY0Nh",
-            "YmluZXRiBnByb3RvMw=="));
+            "B2RldmljZXMYASADKAsyEi5jYWJpbmV0LkRldmljZU1zZyIaCgxTdWJzY3Jp",
+            "cHRpb24SCgoCSWQYASABKAkiHAoOVW5zdWJzY3JpcHRpb24SCgoCSWQYASAB",
+            "KAkysQMKB0NhYmluZXQSQQoNR2V0Q29udGFpbmVycxIXLmNhYmluZXQuQ2Fi",
+            "aW5ldFJlcXVlc3QaFy5jYWJpbmV0LkNvbnRhaW5lclJlcGx5EjMKBkdldElv",
+            "cxIXLmNhYmluZXQuQ2FiaW5ldFJlcXVlc3QaEC5jYWJpbmV0LklvUmVwbHkS",
+            "OwoKR2V0RGV2aWNlcxIXLmNhYmluZXQuQ2FiaW5ldFJlcXVlc3QaFC5jYWJp",
+            "bmV0LkRldmljZVJlcGx5EjgKCUdldEhlYWx0aBIXLmNhYmluZXQuQ2FiaW5l",
+            "dFJlcXVlc3QaEi5jYWJpbmV0LkhlYWx0aE1zZxI+Cg5VcGRhdGVJb0RpcmVj",
+            "dBIYLmNhYmluZXQuSW9EaXJlY3RSZXF1ZXN0GhIuY2FiaW5ldC5SZXR1cm5N",
+            "c2cSNgoJU3Vic2NyaWJlEhUuY2FiaW5ldC5TdWJzY3JpcHRpb24aDi5jYWJp",
+            "bmV0LklvTXNnIgAwARI/CgtVbnN1YnNjcmliZRIVLmNhYmluZXQuU3Vic2Ny",
+            "aXB0aW9uGhcuY2FiaW5ldC5VbnN1YnNjcmlwdGlvbiIAQg6qAgtHcnBjQ2Fi",
+            "aW5ldGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -64,7 +68,9 @@ namespace GrpcCabinet {
             new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.HealthMsg), global::GrpcCabinet.HealthMsg.Parser, new[]{ "IsHealthy" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.ContainerReply), global::GrpcCabinet.ContainerReply.Parser, new[]{ "Containers" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.IoReply), global::GrpcCabinet.IoReply.Parser, new[]{ "Ios" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.DeviceReply), global::GrpcCabinet.DeviceReply.Parser, new[]{ "Devices" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.DeviceReply), global::GrpcCabinet.DeviceReply.Parser, new[]{ "Devices" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.Subscription), global::GrpcCabinet.Subscription.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GrpcCabinet.Unsubscription), global::GrpcCabinet.Unsubscription.Parser, new[]{ "Id" }, null, null, null)
           }));
     }
     #endregion
@@ -2168,6 +2174,264 @@ namespace GrpcCabinet {
             break;
           case 10: {
             devices_.AddEntriesFrom(input, _repeated_devices_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class Subscription : pb::IMessage<Subscription> {
+    private static readonly pb::MessageParser<Subscription> _parser = new pb::MessageParser<Subscription>(() => new Subscription());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<Subscription> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GrpcCabinet.CabinetReflection.Descriptor.MessageTypes[11]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Subscription() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Subscription(Subscription other) : this() {
+      id_ = other.id_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Subscription Clone() {
+      return new Subscription(this);
+    }
+
+    /// <summary>Field number for the "Id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as Subscription);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(Subscription other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(Subscription other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class Unsubscription : pb::IMessage<Unsubscription> {
+    private static readonly pb::MessageParser<Unsubscription> _parser = new pb::MessageParser<Unsubscription>(() => new Unsubscription());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<Unsubscription> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GrpcCabinet.CabinetReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Unsubscription() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Unsubscription(Unsubscription other) : this() {
+      id_ = other.id_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Unsubscription Clone() {
+      return new Unsubscription(this);
+    }
+
+    /// <summary>Field number for the "Id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as Unsubscription);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(Unsubscription other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(Unsubscription other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
             break;
           }
         }

@@ -11,17 +11,18 @@ public class Radials : MonoBehaviour
     public int numSelectors = 3;
     public GameObject[] selectorArr;
     public GameObject selector; //selected in the editor
-
+    CabinetService cabinetService;
     void Start()
     {
+        GameObject Cupboard = GameObject.Find("Cupboard");
+        cabinetService = Cupboard.GetComponent<CabinetService>();
         StartCoroutine(waiter());
     }
 
     IEnumerator waiter()
     {
-        GameObject Cupboard = GameObject.Find("Cupboard");
-        var cabinetService = Cupboard.GetComponent<CabinetService>();
 
+        cabinetService.OnChangeValue += ChangeValue;
         while (!cabinetService.IsReady())
         {
             yield return new WaitForSeconds(1);
@@ -31,7 +32,7 @@ public class Radials : MonoBehaviour
         if (ios != null && ios.Count > 0)
         {
 
-            var selected = cabinetService.ios.Where(x => x.Type == "batteryVoltage" || x.Type == "led"|| x.Type == "servoPosition" || x.Type == "bist").ToList();
+            var selected = cabinetService.GetIosRadials();
             numSelectors = selected.Count;
 
             if (numSelectors > 0)
@@ -102,5 +103,53 @@ public class Radials : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ChangeValue(IoItem sensor)
+    {
+        bool found = false;
+        var selected = cabinetService.GetIosRadials();
+        int numSelectors = selected.Count;
+        int i;
+        for (i = 0; i < numSelectors; i++)
+        {
+            var s = selected[i];
+            if (sensor.Id == s.Id)
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) return;
+
+        var go = selectorArr[i];
+
+        var sliderObject = go.transform.Find("RadialSliderImage").gameObject;
+
+        var name = sliderObject.transform.Find("Name").gameObject;
+        name.GetComponent<Text>().text = sensor.Name;
+        var valueObject = sliderObject.transform.Find("Value").gameObject;
+        valueObject.GetComponent<Text>().text = sensor.Value;
+
+
+        var image = sliderObject.GetComponent<Image>();
+        bool isHex = sensor.Range.StartsWith("0x");
+
+        float value = string.IsNullOrWhiteSpace(sensor.Value) ? 0f : (float)System.Convert.ToInt32(sensor.Value, isHex ? 16 : 10);
+        float maxValue = string.IsNullOrWhiteSpace(sensor.Range) ? 1f : (float)System.Convert.ToInt32(sensor.Range, isHex ? 16 : 10);
+        float angle = 0.5f * value / maxValue;
+
+
+
+        var script = sliderObject.GetComponent<RadialSlider>();
+        script.id = sensor.Id;
+        script.type = sensor.Type;
+        script.maxValue = maxValue;
+        script.isHex = isHex;
+        script.Setup(sensor.Value);
+        image.fillAmount = angle;
+
+        image.color = Color.Lerp(Color.red, Color.green, angle * 2);
     }
 }

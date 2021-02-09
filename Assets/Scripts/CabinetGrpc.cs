@@ -37,6 +37,9 @@ namespace GrpcCabinet {
     static readonly grpc::Marshaller<global::GrpcCabinet.HealthMsg> __Marshaller_cabinet_HealthMsg = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GrpcCabinet.HealthMsg.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GrpcCabinet.IoDirectRequest> __Marshaller_cabinet_IoDirectRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GrpcCabinet.IoDirectRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GrpcCabinet.ReturnMsg> __Marshaller_cabinet_ReturnMsg = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GrpcCabinet.ReturnMsg.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GrpcCabinet.Subscription> __Marshaller_cabinet_Subscription = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GrpcCabinet.Subscription.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GrpcCabinet.IoMsg> __Marshaller_cabinet_IoMsg = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GrpcCabinet.IoMsg.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GrpcCabinet.Unsubscription> __Marshaller_cabinet_Unsubscription = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GrpcCabinet.Unsubscription.Parser.ParseFrom);
 
     static readonly grpc::Method<global::GrpcCabinet.CabinetRequest, global::GrpcCabinet.ContainerReply> __Method_GetContainers = new grpc::Method<global::GrpcCabinet.CabinetRequest, global::GrpcCabinet.ContainerReply>(
         grpc::MethodType.Unary,
@@ -73,6 +76,20 @@ namespace GrpcCabinet {
         __Marshaller_cabinet_IoDirectRequest,
         __Marshaller_cabinet_ReturnMsg);
 
+    static readonly grpc::Method<global::GrpcCabinet.Subscription, global::GrpcCabinet.IoMsg> __Method_Subscribe = new grpc::Method<global::GrpcCabinet.Subscription, global::GrpcCabinet.IoMsg>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "Subscribe",
+        __Marshaller_cabinet_Subscription,
+        __Marshaller_cabinet_IoMsg);
+
+    static readonly grpc::Method<global::GrpcCabinet.Subscription, global::GrpcCabinet.Unsubscription> __Method_Unsubscribe = new grpc::Method<global::GrpcCabinet.Subscription, global::GrpcCabinet.Unsubscription>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Unsubscribe",
+        __Marshaller_cabinet_Subscription,
+        __Marshaller_cabinet_Unsubscription);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -104,6 +121,16 @@ namespace GrpcCabinet {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::GrpcCabinet.ReturnMsg> UpdateIoDirect(global::GrpcCabinet.IoDirectRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task Subscribe(global::GrpcCabinet.Subscription request, grpc::IServerStreamWriter<global::GrpcCabinet.IoMsg> responseStream, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GrpcCabinet.Unsubscription> Unsubscribe(global::GrpcCabinet.Subscription request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -213,6 +240,30 @@ namespace GrpcCabinet {
       {
         return CallInvoker.AsyncUnaryCall(__Method_UpdateIoDirect, null, options, request);
       }
+      public virtual grpc::AsyncServerStreamingCall<global::GrpcCabinet.IoMsg> Subscribe(global::GrpcCabinet.Subscription request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Subscribe(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncServerStreamingCall<global::GrpcCabinet.IoMsg> Subscribe(global::GrpcCabinet.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_Subscribe, null, options, request);
+      }
+      public virtual global::GrpcCabinet.Unsubscription Unsubscribe(global::GrpcCabinet.Subscription request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Unsubscribe(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GrpcCabinet.Unsubscription Unsubscribe(global::GrpcCabinet.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Unsubscribe, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GrpcCabinet.Unsubscription> UnsubscribeAsync(global::GrpcCabinet.Subscription request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UnsubscribeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GrpcCabinet.Unsubscription> UnsubscribeAsync(global::GrpcCabinet.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Unsubscribe, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override CabinetClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -229,7 +280,9 @@ namespace GrpcCabinet {
           .AddMethod(__Method_GetIos, serviceImpl.GetIos)
           .AddMethod(__Method_GetDevices, serviceImpl.GetDevices)
           .AddMethod(__Method_GetHealth, serviceImpl.GetHealth)
-          .AddMethod(__Method_UpdateIoDirect, serviceImpl.UpdateIoDirect).Build();
+          .AddMethod(__Method_UpdateIoDirect, serviceImpl.UpdateIoDirect)
+          .AddMethod(__Method_Subscribe, serviceImpl.Subscribe)
+          .AddMethod(__Method_Unsubscribe, serviceImpl.Unsubscribe).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -243,6 +296,8 @@ namespace GrpcCabinet {
       serviceBinder.AddMethod(__Method_GetDevices, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcCabinet.CabinetRequest, global::GrpcCabinet.DeviceReply>(serviceImpl.GetDevices));
       serviceBinder.AddMethod(__Method_GetHealth, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcCabinet.CabinetRequest, global::GrpcCabinet.HealthMsg>(serviceImpl.GetHealth));
       serviceBinder.AddMethod(__Method_UpdateIoDirect, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcCabinet.IoDirectRequest, global::GrpcCabinet.ReturnMsg>(serviceImpl.UpdateIoDirect));
+      serviceBinder.AddMethod(__Method_Subscribe, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::GrpcCabinet.Subscription, global::GrpcCabinet.IoMsg>(serviceImpl.Subscribe));
+      serviceBinder.AddMethod(__Method_Unsubscribe, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::GrpcCabinet.Subscription, global::GrpcCabinet.Unsubscription>(serviceImpl.Unsubscribe));
     }
 
   }

@@ -23,7 +23,7 @@ namespace Assets.Scripts
             dest.Range = src.Range;
             dest.Description = src.Description;
             dest.Value = src.Value;
-           
+            dest.Type = src.Type;
             return dest;
         }
 

@@ -21,6 +21,8 @@ namespace Assets.Scripts
         bool devicesLoaded;
 
         string targetUrl = GRPC_CABINETSERVICE_URL;
+        Channel channel;
+        Cabinet.CabinetClient client;
 
         // Keep track of what we got back
 
@@ -28,30 +30,60 @@ namespace Assets.Scripts
         public List<ContainerItem> containers;
 
         public List<DeviceItem> devices;
-       
+        //public GameObject canvas;
+        //Sliders sliders;
+        //Radials radials;
 
+        private Subscription _subscription;
+
+        public event Action<IoItem> OnChangeValue;
         public string getUrl()
         {
             return targetUrl;
         }
         public void setUrl(string url)
         {
-            targetUrl = url;
+            if (targetUrl != null)
+            {
+                targetUrl = url;
+                InitCabinetClient();
+            }
+            
         }
-
+        void  InitCabinetClient()
+        {
+             channel = new Channel(targetUrl, ChannelCredentials.Insecure);
+             client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+           
+        }
+        //Cabinet.CabinetClient GetCabinetClient()
+        //{
+        //    var channel = new Channel(targetUrl, ChannelCredentials.Insecure);
+        //    var client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+        //    return client;
+        //}
         void Awake()
         {
+            //sliders = canvas.GetComponent<Sliders>();
+            //radials = canvas.GetComponent<Radials>();
+
             containersLoaded = false;
             iosLoaded = false;
             devicesLoaded = false;
             targetUrl = GRPC_CABINETSERVICE_URL;
+            InitCabinetClient();
+
             this.DoCheck();
         }
 
+        void OnDisable()
+        {
+            Debug.Log("PrintOnDisable: script was disabled");
+            Unsubscribe();
+        }
         async void getContainersFromServer()
         {
-            var channel = new Channel(targetUrl, ChannelCredentials.Insecure);
-            var client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+            //var client = GetCabinetClient();
             var reply = await client.GetContainersAsync(
                               new CabinetRequest());
             Debug.Log("GetContainers: " + reply.Containers.Count);
@@ -67,8 +99,7 @@ namespace Assets.Scripts
 
         async void getIosFromServer()
         {
-            var channel = new Channel(targetUrl, ChannelCredentials.Insecure);
-            var client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+            //var client = GetCabinetClient();
             var reply = await client.GetIosAsync(
                               new CabinetRequest());
             Debug.Log("GetIos: " + reply.Ios.Count);
@@ -83,8 +114,7 @@ namespace Assets.Scripts
 
         async void getDevicesFromServer()
         {
-            var channel = new Channel(targetUrl, ChannelCredentials.Insecure);
-            var client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+            //var client = GetCabinetClient();
             var reply = await client.GetDevicesAsync(
                               new CabinetRequest());
             Debug.Log("GetDevices: " + reply.Devices.Count);
@@ -100,18 +130,76 @@ namespace Assets.Scripts
         }
         // Where to send our request
 
-       
 
+        public async void Subscribe()
+        {
+            //Task.Run(async () =>
+            //{
+                await Subscribe(Guid.NewGuid().ToString("N"));
+            //}).ConfigureAwait(false).GetAwaiter();
+        }
+        public async Task Subscribe(string subscriptionId)
+        {
+            //var client = GetCabinetClient();
+            _subscription = new Subscription() { Id = subscriptionId };
+            Debug.Log($">> SubscriptionId : {subscriptionId}");
+            using (var call = client.Subscribe(_subscription))
+            {
+                //Receive
+                //var responseReaderTask = Task.Run(async () =>
+                //{
+                    while (await call.ResponseStream.MoveNext())
+                    {
+                        Debug.Log("Event received: " + call.ResponseStream.Current);
+                        var msg = call.ResponseStream.Current;
+                        try
+                        {
+                            ProcessMsg(msg);
+                        }
+                        catch(Exception ex)
+                        {
+                            Debug.Log(ex);
+                        }
+                    }
+                //});
 
+                //await responseReaderTask;
+            }
+        }
 
+        public void Unsubscribe()
+        {
+            if (_subscription != null)
+            {
+                client.Unsubscribe(_subscription);
+                channel.ShutdownAsync();
+            }
+        }
+
+        void ProcessMsg(IoMsg msg)
+        {          
+            var mapper = new Mapper();
+            var item = mapper.ToDto(msg);
+            var f = this.ios.FirstOrDefault(x => x.Id == item.Id);
+            if (f != null)
+            {
+                if (f.Value != item.Value)
+                {
+                    Debug.Log("Change received.");
+                     
+                    if (OnChangeValue !=null)
+                         OnChangeValue( item);                      
+                  
+                }
+            }
+        }
         async void DoCheck()
         {
             for (; ; )
             {
                 try
                 {
-                    var channel = new Channel(targetUrl, ChannelCredentials.Insecure);
-                    var client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+                    //var client = GetCabinetClient();
                     var reply = client.GetHealth(new CabinetRequest());
                     if (reply.IsHealthy)
                     {
@@ -123,13 +211,15 @@ namespace Assets.Scripts
                 {
                     Debug.Log($"GetHealth: {e.Status}");
                 }
-                await Task.Delay(2000);
+                await Task.Delay(1000);
             }
             try
             {
                 getContainersFromServer();
                 getIosFromServer();
                 getDevicesFromServer();
+               
+                Subscribe();
             }
             catch (RpcException e)
             {
@@ -172,8 +262,7 @@ namespace Assets.Scripts
             request.UpdateItems.AddRange(items);
             try
             {
-                var channel = new Channel(targetUrl, ChannelCredentials.Insecure);
-                var client = new GrpcCabinet.Cabinet.CabinetClient(channel);
+                //var client = GetCabinetClient();
                 var reply = await client.UpdateIoDirectAsync(request);
                 Debug.Log("UpdateIo: " + reply.Success);
             }
@@ -191,7 +280,16 @@ namespace Assets.Scripts
             return type;
         }
 
-
+        public List<IoItem> GetIosSliders()
+        {
+            var selected = this.ios.Where(x => x.ValueType != "string" && (x.Id == "1" || x.Id.Length > 2) && x.Type != "batteryVoltage" && x.Type != "led" && x.Type != "servoPosition").ToList();
+            return selected;
+        }
+        public List<IoItem> GetIosRadials()
+        {
+            var selected = this.ios.Where(x => x.Type == "batteryVoltage" || x.Type == "led" || x.Type == "servoPosition" || x.Type == "bist").ToList();
+            return selected;
+        }
     }
 }
 

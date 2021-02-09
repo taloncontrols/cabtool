@@ -26,6 +26,8 @@ namespace Assets.Scripts
         public List<ContainerItem> containers;
 
         public List<DeviceItem> devices;
+
+        //public GameObject canvas;
         bool devicesLoaded = false;
       
 
@@ -255,6 +257,17 @@ namespace Assets.Scripts
                     onDeleteRequestSuccess?.Invoke("Patch Request Completed");
                 }
             }
+        }
+
+        public List<IoItem> GetIosSliders()
+        {
+            var selected = this.ios.Where(x => x.ValueType != "string" && (x.Id == "1" || x.Id.Length > 2) && x.Type != "batteryVoltage" && x.Type != "led" && x.Type != "servoPosition").ToList();
+            return selected;
+        }
+        public List<IoItem> GetIosRadials()
+        {
+            var selected = this.ios.Where(x => x.Type == "batteryVoltage" || x.Type == "led" || x.Type == "servoPosition" || x.Type == "bist").ToList();
+            return selected;
         }
     }
 }
