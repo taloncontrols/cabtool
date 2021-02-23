@@ -177,6 +177,13 @@ namespace Assets.Scripts
             this.WebPatchRequest(url, str);
         }
 
+        public  void ChangeLocal(string id, string value)
+        {
+            var io = ios.FirstOrDefault(n => n.Id == id);
+            if (io == null) return;
+
+            io.Value = value;
+        }
         public void ChangeIo(IoItem item)
         {
             string url = targetUrl + "/ios/direct/peripheral";
@@ -259,6 +266,12 @@ namespace Assets.Scripts
             }
         }
 
+        public List<ContainerItem> GetDrawers()
+        {
+            var id = this.containers[0].Id;
+            var selected = this.containers.Where(x => x.ParentId == id).ToList();
+            return selected;
+        }
         public List<IoItem> GetIosSliders()
         {
             var selected = this.ios.Where(x => x.ValueType != "string" && (x.Id == "1" || x.Id.Length > 2) && x.Type != "batteryVoltage" && x.Type != "led" && x.Type != "servoPosition").ToList();

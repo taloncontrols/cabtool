@@ -11,17 +11,18 @@ public class Drawers : MonoBehaviour
     public GameObject[] selectorArr;
     public GameObject selector; //selected in the editor
     public GameObject peripheralGO;
+    CabinetService cabinetService;
     void Start()
     {
         //peripheralGO.SetActive(false);
+        GameObject Cupboard = GameObject.Find("Cupboard");
+        cabinetService = Cupboard.GetComponent<CabinetService>();
         StartCoroutine(waiter());
     }
 
     IEnumerator waiter()
     {
-        GameObject Cupboard = GameObject.Find("Cupboard");
-        var cabinetService = Cupboard.GetComponent<CabinetService>();
-
+        cabinetService.OnChangeValue += ChangeValue;
         while (!cabinetService.IsReady())
         {
             yield return new WaitForSeconds(1);
@@ -73,5 +74,49 @@ public class Drawers : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void ChangeValue(IoItem sensor)
+    {
+
+        bool found = false;
+        var selected = cabinetService.GetDrawers();
+        int numSelectors = selected.Count;
+        int i;
+        for (i = 0; i < numSelectors; i++)
+        {
+            var s = selected[i];
+            if (sensor.ContainerId == s.Id)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return;
+
+        var drawer = selected[i];
+        var go = selectorArr[i];
+
+        float x = (float)0.5f;
+        float y = (float)(0.7f - i * 0.3f);
+        float z = 0.1f;
+        if (sensor.Value == "0")
+        {
+            x = x + 0.8f;
+            z = z - 0.06f;
+        }
+        var openBox = go.GetComponent<OpenBox>();
+        openBox.containerId = drawer.Id;
+
+        if (sensor.Value == "0")
+        {
+            openBox.boxOpened = true;
+        }
+        else
+        {
+            openBox.boxOpened = false;
+        }
+        go.transform.position = new Vector3(x, y, z);
+        cabinetService.ChangeLocal(sensor.Id, sensor.Value);
     }
 }

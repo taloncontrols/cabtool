@@ -272,12 +272,26 @@ namespace Assets.Scripts
             }
         }
 
+        public  void ChangeLocal(string id, string value)
+        {
+            var io = ios.FirstOrDefault(n => n.Id == id);
+            if (io == null) return;
 
-        public string GetDeviceType(int value)
+            io.Value = value;
+        }
+
+            public string GetDeviceType(int value)
         {
             var deviceItem = devices[value];
             var type = !string.IsNullOrEmpty(deviceItem.ClassName) ? deviceItem.ClassName : deviceItem.Type;
             return type;
+        }
+
+        public List<ContainerItem> GetDrawers()
+        {
+            var id = this.containers[0].Id;
+            var selected = this.containers.Where(x => x.ParentId == id).ToList();           
+            return selected;
         }
 
         public List<IoItem> GetIosSliders()
