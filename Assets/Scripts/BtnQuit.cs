@@ -16,8 +16,9 @@ public class BtnQuit : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-      Application.Quit();
+      //Application.Quit();
+      if (!Application.isEditor) { System.Diagnostics.Process.GetCurrentProcess().Kill(); }
 #endif
     }
-  
+
 }
