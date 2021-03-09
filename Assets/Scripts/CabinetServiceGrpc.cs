@@ -290,7 +290,7 @@ namespace Assets.Scripts
         public List<ContainerItem> GetDrawers()
         {
             var id = this.containers[0].Id;
-            var selected = this.containers.Where(x => x.ParentId == id).ToList();           
+            var selected = this.containers.Where(x => x.ParentId == id&&(string.IsNullOrEmpty(x.Position)||x.Position.Equals("front", StringComparison.InvariantCultureIgnoreCase))).ToList();           
             return selected;
         }
 

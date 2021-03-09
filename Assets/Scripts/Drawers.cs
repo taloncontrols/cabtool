@@ -31,8 +31,8 @@ public class Drawers : MonoBehaviour
         var containers = cabinetService.containers;
         if (containers != null && containers.Count > 0)
         {
-            var id = cabinetService.containers[0].Id;
-            var drawers = cabinetService.containers.Where(x => x.ParentId == id).ToList();
+            
+            var drawers = cabinetService.GetDrawers();
             numSelectors = drawers.Count;
 
             if (numSelectors > 0)
