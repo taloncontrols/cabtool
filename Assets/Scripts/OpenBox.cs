@@ -75,6 +75,6 @@ public class OpenBox : MonoBehaviour
         {
             value = "1";
         }
-        cabinetService.ChangeByContainerId(containerId, value);
+        cabinetService.ChangeByContainerId(containerId, "closed", value);
     }
 }

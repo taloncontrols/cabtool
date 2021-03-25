@@ -78,7 +78,7 @@ public class Drawers : MonoBehaviour
 
     public void ChangeValue(IoItem sensor)
     {
-
+        if (sensor.Type != "closed") return;
         bool found = false;
         var selected = cabinetService.GetDrawers();
         int numSelectors = selected.Count;

@@ -147,12 +147,11 @@ namespace Assets.Scripts
             devices = JsonConvert.DeserializeObject<List<DeviceItem>>(data);
             devices = devices.Where(x => !string.IsNullOrWhiteSpace(x.ClassName)).ToList();
         }
-        public void ChangeByContainerId(string containerId, string value)
+        public void ChangeByContainerId(string containerId, string type, string value)
         {
-            var io = ios.FirstOrDefault(n => n.ContainerId == containerId);
+            var io = ios.FirstOrDefault(n => n.ContainerId == containerId && n.Type == type);
             if (io == null) return;
             Change(io.Id, value);
-
         }
 
         public void ChangeByDeviceId(string deviceId, string value)
@@ -160,7 +159,6 @@ namespace Assets.Scripts
             var io = ios.FirstOrDefault(n => n.DeviceId == deviceId);
             if (io == null) return;
             Change(io.Id, value);
-
         }
         public void Change(string id, string value)
         {

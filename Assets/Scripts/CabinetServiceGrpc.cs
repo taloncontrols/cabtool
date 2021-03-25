@@ -233,9 +233,9 @@ namespace Assets.Scripts
 
 
 
-        public void ChangeByContainerId(string containerId, string value)
+        public void ChangeByContainerId(string containerId,string type, string value)
         {
-            var io = ios.FirstOrDefault(n => n.ContainerId == containerId);
+            var io = ios.FirstOrDefault(n => n.ContainerId == containerId && n.Type==type);
             if (io == null) return;
             Change(io.Id, value);
 
