@@ -13,8 +13,8 @@ public class SliderValueToText : MonoBehaviour
     public Slider sliderUI;
     public string id;
     private Text textSliderValue;
-    private bool isBeingDragged = false;
-    
+   
+
     void Start()
     {
         //sliderUI = GetComponent<Slider>();
@@ -27,7 +27,7 @@ public class SliderValueToText : MonoBehaviour
     {
         OnDrag();
         //Debug.Log("drag end");
-        isBeingDragged = false;
+      
     }
 
     public void OnBeginDrag()
@@ -35,28 +35,27 @@ public class SliderValueToText : MonoBehaviour
 
         //Debug.Log("drag start");
 
-        isBeingDragged = true;
+      
     }
     public void OnDrag()
     {
         //Debug.Log("drag");
 
-        isBeingDragged = true;
-
         if (sliderUI != null)
-            ShowSliderValue(sliderUI.value,true);
+            ShowSliderValue(sliderUI.value, true);
     }
 
-    public void ShowSliderValue(float value, bool notify=false)
+    public void ShowSliderValue(float value, bool notify = false)
     {
-      
+
         textSliderValue = GetComponent<Text>();
         //string sliderMessage = " " + sliderUI.value;
         if (textSliderValue != null)
         {
-            textSliderValue.text = value.ToString("0");
+            string svalue = value.ToString("0");
+            textSliderValue.text = svalue;
             if (notify)
-            Change(value.ToString("0"));
+                Change(svalue);
         }
 
     }
